@@ -10,7 +10,6 @@ import {
 } from '@nestjs/websockets';
 
 import { Server, Socket } from 'socket.io';
-
 @WebSocketGateway({
   cors: {
     origin: true,
@@ -27,6 +26,8 @@ export class SocketGatewayService
   async handleConnection(socket: Socket) {
     try {
       console.log(`Client connected: ${socket.id}`);
+      const users = await this.server.fetchSockets();
+      this.server.emit('online-users', users.length);
     } catch (error) {
       socket.disconnect();
     }
@@ -44,7 +45,7 @@ export class SocketGatewayService
     console.log(`Message Received from ${socket.id}`, data);
   }
 
-  handleEmitMEssage(data: any, event: string) {
+  handleEmitMessage(data: any, event: string) {
     this.server.emit(event, data);
   }
 }
