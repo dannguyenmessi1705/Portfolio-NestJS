@@ -2,14 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { SendgridClient } from './sendgrid-client';
 import { ConfigService } from '@nestjs/config';
 import { MailDataRequired } from '@sendgrid/mail';
+import { Mail } from 'src/users/dtos/send-email';
 
-type Body = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  message: string;
-};
 @Injectable()
 export class SendgridService {
   constructor(
@@ -17,17 +11,15 @@ export class SendgridService {
     private configService: ConfigService,
   ) {}
 
-  async sendEmailWithTemplate(recipient: string, body: Body) {
+  async sendEmailWithTemplate(recipient: string, body: Mail) {
     const mail: MailDataRequired = {
-      to: recipient,
-      from: this.configService.get<string>('SENDGRID_EMAIL'),
+      to: this.configService.get<string>('SENDGRID_TO_EMAIL'),
+      from: this.configService.get<string>('SENDGRID_FROM_EMAIL'),
       subject: 'YOU HAVE A NEW MESSAGE',
       templateId: this.configService.get<string>(
         'SENDGRID_TEMPLATE_FORM_EMAIL',
       ),
-      dynamicTemplateData: {
-        body: body,
-      },
+      dynamicTemplateData: body,
     };
     await this.sendgridClient.send(mail);
   }

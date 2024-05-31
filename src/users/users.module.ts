@@ -8,7 +8,7 @@ import { Category } from 'src/projects/entities/category.entity';
 import { ProjectLanguage } from 'src/projects/entities/project-language.entity';
 import { Language } from 'src/projects/entities/languages.entity';
 import { Blog } from 'src/blogs/blogs.entity';
-import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
+import { SendgridModule } from 'src/sendgrid/sendgrid.module';
 
 @Module({
   imports: [
@@ -20,13 +20,10 @@ import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
       Language,
       Blog,
     ]),
+    SendgridModule,
   ],
   providers: [UsersService],
   controllers: [UsersController],
   exports: [UsersService],
 })
-export class UsersModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CurrentUserMiddleware).forRoutes('*');
-  }
-}
+export class UsersModule {}

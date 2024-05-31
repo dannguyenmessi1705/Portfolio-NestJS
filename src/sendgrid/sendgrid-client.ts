@@ -10,6 +10,7 @@ export class SendgridClient {
 
   async send(mail: MailDataRequired) {
     try {
+      console.log(mail);
       await Sendgrid.send(mail);
     } catch (error) {
       throw new InternalServerErrorException('Error sending email');
