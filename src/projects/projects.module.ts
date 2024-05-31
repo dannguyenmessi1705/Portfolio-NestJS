@@ -9,13 +9,19 @@ import { UsersModule } from 'src/users/users.module';
 import { ProjectLanguageService } from './services/project-language.service';
 import { LanguageService } from './services/language.service';
 import { CategoryService } from './services/category.service';
+import { Category } from './entities/category.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Project, ProjectLanguage, Language]),
+    TypeOrmModule.forFeature([Project, ProjectLanguage, Language, Category]),
     UsersModule,
   ],
-  providers: [ProjectsService, ProjectLanguageService, LanguageService, CategoryService],
+  providers: [
+    ProjectsService,
+    ProjectLanguageService,
+    LanguageService,
+    CategoryService,
+  ],
   controllers: [ProjectsController],
 })
 export class ProjectsModule {}
