@@ -11,7 +11,6 @@ import {
 import { Category } from './category.entity';
 import { User } from 'src/users/users.entity';
 import { ProjectLanguage } from './project-language.entity';
-
 @Entity({ name: 'projects' })
 export class Project {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
@@ -51,7 +50,7 @@ export class Project {
   @OneToMany(
     () => ProjectLanguage,
     (projectLanguage) => projectLanguage.project,
-    { eager: true, cascade: true },
+    { eager: true },
   )
   proLangs: ProjectLanguage[];
 }

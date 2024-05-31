@@ -35,25 +35,7 @@ async function bootstrap() {
 
   app.register(compress, { encodings: ['gzip', 'deflate'] });
 
-  app.enableCors({
-    origin: '*',
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Accept-Language',
-      'X-Requested-With',
-      'Accept',
-      'Origin',
-      'Access-Control-Allow-Origin',
-      'Access-Control-Allow-Headers',
-      'Access-Control-Allow-Methods',
-      'Access-Control-Allow-Credentials',
-      'Access-Control-Max-Age',
-      'Access-Control-Expose-Headers',
-      'Access-Control-Request-Headers',
-    ],
-  }); // Enable CORS
+  app.enableCors()
 
   app.useGlobalPipes(
     new ValidationPipe({

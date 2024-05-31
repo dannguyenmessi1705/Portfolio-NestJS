@@ -1,4 +1,4 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsString } from 'class-validator';
 import { CategoryEnum } from '../interfaces/Category.enum';
 
 export class NewProjectDto {
@@ -9,15 +9,13 @@ export class NewProjectDto {
   description: string;
 
   @IsString()
-  image: string;
-
-  @IsString()
   demo: string;
 
   @IsString()
   source: string;
 
-  languages: string[];
+  @IsString()
+  languages: string;
 
   @IsEnum(CategoryEnum)
   category: string;

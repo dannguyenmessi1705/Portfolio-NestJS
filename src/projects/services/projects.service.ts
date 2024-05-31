@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from '../entities/projects.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { NewProjectDto } from '../dtos/create-project.dto';
 import { UpdateProjectDto } from '../dtos/update-project.dto';
@@ -9,6 +9,9 @@ import { ProjectLanguage } from '../entities/project-language.entity';
 import { LanguageService } from './language.service';
 import { ProjectLanguageService } from './project-language.service';
 import { CategoryService } from './category.service';
+import { Language } from '../entities/languages.entity';
+
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProjectsService {
@@ -19,6 +22,7 @@ export class ProjectsService {
     private languageService: LanguageService,
     private projectLanguageService: ProjectLanguageService,
     private categoryService: CategoryService,
+    private dataSource: DataSource,
   ) {}
 
   async findAllProject() {
@@ -29,35 +33,55 @@ export class ProjectsService {
     return await this.projectRepo.findOneBy({ id });
   }
 
-  async createProject(project: NewProjectDto) {
+  async createProject(project: NewProjectDto, filePath: string = null) {
     const admin = await this.userService.getAdminDetails();
     if (!admin) {
       throw new UnauthorizedException();
     }
     const { languages, category, ...pro } = project;
+    const queryRunner = this.dataSource.createQueryRunner();
 
-    const newProject = new Project();
-    Object.assign(newProject, pro);
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    newProject.user = admin;
-    const saveProject = this.projectRepo.create(newProject);
+    try {
+      const newProject = new Project();
+      newProject.proLangs = [];
+      Object.assign(newProject, pro);
 
-    languages.forEach(async (lang) => {
-      let language = await this.languageService.findByNameLang(lang);
-      if (!language) {
-        language.name = lang;
-        language = await this.languageService.createLang(language);
+      newProject.user = admin;
+      if (filePath) {
+        newProject.image = filePath;
       }
-      const proLang = new ProjectLanguage();
-      proLang.language = language;
-      proLang.project = saveProject;
-      const newProLang = await this.projectLanguageService.create(proLang);
-      saveProject.proLangs.push(newProLang);
-    });
+      const saveProject = await queryRunner.manager.save(newProject);
 
-    const categoryPro = await this.categoryService.findByName(category);
-    saveProject.category = categoryPro;
-    return await this.projectRepo.save(saveProject);
+      const arrayLang = languages.split(',');
+      arrayLang.forEach(async (lang) => {
+        let language = await this.languageService.findByNameLang(lang);
+        if (!language) {
+          language = new Language();
+          language.name = lang;
+          language = await this.languageService.createLang(language);
+        }
+        const proLang = new ProjectLanguage();
+        proLang.language = language;
+        proLang.project = saveProject;
+        const newProLang = await this.projectLanguageService.create(proLang);
+        saveProject.proLangs.push(newProLang);
+      });
+
+      const categoryPro = await this.categoryService.findByName(category);
+      saveProject.category = categoryPro;
+
+      await queryRunner.manager.save(saveProject);
+      await queryRunner.commitTransaction();
+      return saveProject;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   async update(id: string, body: UpdateProjectDto, filePath: string = null) {

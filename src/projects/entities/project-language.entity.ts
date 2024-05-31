@@ -8,7 +8,7 @@ import {
 import { Project } from './projects.entity';
 import { Language } from './languages.entity';
 
-@Entity({ name: 'project_languages' })
+@Entity({ name: 'project_language' })
 export class ProjectLanguage {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
