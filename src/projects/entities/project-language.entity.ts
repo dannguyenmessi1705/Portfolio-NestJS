@@ -13,12 +13,6 @@ export class ProjectLanguage {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
-  @Column({ name: 'project_id' })
-  projectId: string;
-
-  @Column({ name: 'language_id' })
-  languageId: string;
-
   @ManyToOne(() => Project, (project) => project.proLangs)
   @JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
   project: Project;

@@ -162,7 +162,7 @@
           "size": 255
         },
         {
-          "name": "languages",
+          "name": "user_created",
           "type": "VARCHAR",
           "default": "",
           "check": "",
@@ -175,19 +175,6 @@
           "size": 255
         },
         {
-          "name": "user_created",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 8,
-          "size": 255
-        },
-        {
           "name": "date",
           "type": "VARCHAR",
           "default": "",
@@ -197,7 +184,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 9,
+          "id": 8,
           "size": 255
         }
       ],
@@ -467,7 +454,7 @@
     },
     {
       "startTableId": 1,
-      "startFieldId": 8,
+      "startFieldId": 7,
       "endTableId": 0,
       "endFieldId": 0,
       "cardinality": "Nhiều thành một",

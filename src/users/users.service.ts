@@ -14,7 +14,7 @@ export class UsersService {
 
   async getAdminDetails(): Promise<User> {
     return this.userRepo.findOne({
-      where: { name: 'Nguyễn Di Đan' },
+      where: { id: process.env.USER_ID },
     });
   }
 

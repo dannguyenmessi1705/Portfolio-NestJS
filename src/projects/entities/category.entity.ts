@@ -7,5 +7,5 @@ export class Category {
   id: string;
 
   @Column({ name: 'name', enum: CategoryEnum, default: CategoryEnum.OTHER })
-  name: CategoryEnum;
+  name: string;
 }

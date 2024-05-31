@@ -11,8 +11,7 @@ export class Language {
 
   @OneToMany(
     () => ProjectLanguage,
-    (projectLanguage) => projectLanguage.language,
-    { eager: true, cascade: true },
+    (projectLanguage) => projectLanguage.language
   )
   proLangs: ProjectLanguage[];
 }

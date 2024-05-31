@@ -9,7 +9,7 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get()
-  getAdminDetails(@Req() req: any) {
+  getAdminDetails() {
     return this.userService.getAdminDetails();
   }
 

@@ -32,9 +32,6 @@ export class Project {
   @Column({ name: 'source' })
   source: string;
 
-  @Column({ name: 'user_created' })
-  userCreated: string;
-
   @Column({ name: 'date' })
   date: Date;
 

@@ -14,7 +14,6 @@ CREATE TABLE `projects` (
 	`demo` VARCHAR(255),
 	`source` VARCHAR(255),
 	`category` VARCHAR(255),
-	`languages` VARCHAR(255),
 	`user_created` VARCHAR(255),
 	`date` VARCHAR(255),
 	PRIMARY KEY(`id`)
