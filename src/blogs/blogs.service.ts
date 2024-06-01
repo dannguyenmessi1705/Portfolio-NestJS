@@ -58,4 +58,19 @@ export class BlogsService {
       message: 'Blog updated successfully',
     };
   }
+
+  async deleteBlog(id: string) {
+    const admin = await this.userService.getAdminDetails();
+    if (!admin) {
+      throw new UnauthorizedException();
+    }
+    const blog = await this.findOneById(id);
+    if (!blog) {
+      throw new UnauthorizedException();
+    }
+    await this.blogRepo.delete(id);
+    return {
+      message: 'Blog deleted successfully',
+    };
+  }
 }

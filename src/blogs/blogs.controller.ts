@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -55,5 +56,11 @@ export class BlogsController {
     }
     const filePath = file ? file.path : null;
     return await this.blogService.updateBlog(blogId, body, filePath);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':blogId')
+  async deleteBlog(@Param('blogId') blogId: string) {
+    return await this.blogService.deleteBlog(blogId);
   }
 }
