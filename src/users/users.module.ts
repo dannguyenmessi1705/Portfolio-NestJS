@@ -9,6 +9,8 @@ import { ProjectLanguage } from 'src/projects/entities/project-language.entity';
 import { Language } from 'src/projects/entities/languages.entity';
 import { Blog } from 'src/blogs/blogs.entity';
 import { SendgridModule } from 'src/sendgrid/sendgrid.module';
+import { BullModule } from '@nestjs/bull';
+import { SendEmailConsumer } from './consumers/send-email.consumer';
 
 @Module({
   imports: [
@@ -21,8 +23,11 @@ import { SendgridModule } from 'src/sendgrid/sendgrid.module';
       Blog,
     ]),
     SendgridModule,
+    BullModule.registerQueue({
+      name: 'send-email',
+    }),
   ],
-  providers: [UsersService],
+  providers: [UsersService, SendEmailConsumer],
   controllers: [UsersController],
   exports: [UsersService],
 })

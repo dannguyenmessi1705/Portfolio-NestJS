@@ -12,6 +12,8 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { RedisCacheConfig } from './config/redis-cache.config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { BullModule } from '@nestjs/bull';
+import { BullConfig } from './config/queue-bull.config';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ProjectsModule,
     UsersModule,
     CacheModule.registerAsync(RedisCacheConfig),
+    BullModule.forRootAsync(BullConfig),
   ],
   controllers: [AppController],
   providers: [

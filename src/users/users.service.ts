@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SendgridService } from 'src/sendgrid/sendgrid.service';
 import { Mail } from './dtos/send-email';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 @Injectable()
 export class UsersService {
   constructor(
@@ -12,6 +14,7 @@ export class UsersService {
     private userRepo: Repository<User>,
     private sendgrid: SendgridService,
     @Inject(CACHE_MANAGER) private cache: Cache,
+    @InjectQueue('send-email') private sendEmailQueue: Queue,
   ) {}
 
   async getAdminDetails(): Promise<User> {
@@ -29,6 +32,6 @@ export class UsersService {
   }
 
   async sendEmail(body: Mail) {
-    await this.sendgrid.sendEmailWithTemplate(process.env.SENDGRID_EMAIL, body);
+    await this.sendEmailQueue.add('contact', body);
   }
 }
