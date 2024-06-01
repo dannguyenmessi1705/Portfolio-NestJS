@@ -22,6 +22,17 @@ export class BlogsService {
     return await this.blogRepo.findOneBy({ id });
   }
 
+  async findBlogByTitle(title: string, page: number = 0) {
+    const blogs = await this.blogRepo
+      .createQueryBuilder('blogs')
+      .leftJoinAndSelect('blogs.user', 'user')
+      .where('blogs.title LIKE :title', { title: `%${title}%` })
+      .take(20)
+      .skip(page * 20)
+      .getMany();
+    return blogs;
+  }
+
   async createBlog(body: CreateBlogDto, filePath: string = null) {
     const admin = await this.userService.getAdminDetails();
     if (!admin) {

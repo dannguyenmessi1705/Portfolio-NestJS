@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -41,6 +42,17 @@ export class BlogsController {
   @Serialize(BlogResponseDto)
   async getBlogById(@Param('blogId') blogId: string) {
     return await this.blogService.findOneById(blogId);
+  }
+
+  @Get('search')
+  async searchBlogByTitle(
+    @Query('title') title: string,
+    @Query('page') page: number = 0,
+  ) {
+    if (!title) {
+      return;
+    }
+    return await this.blogService.findBlogByTitle(title, page);
   }
 
   @UseGuards(AuthGuard)
