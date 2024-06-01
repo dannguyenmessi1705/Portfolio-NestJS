@@ -75,7 +75,9 @@ export class ProjectsService {
 
       await queryRunner.manager.save(saveProject);
       await queryRunner.commitTransaction();
-      return saveProject;
+      return {
+        message: 'Project created successfully',
+      };
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;

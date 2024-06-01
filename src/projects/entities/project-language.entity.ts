@@ -17,7 +17,7 @@ export class ProjectLanguage {
   @JoinColumn({ name: 'project_id', referencedColumnName: 'id' })
   project: Project;
 
-  @ManyToOne(() => Language, (language) => language.proLangs)
+  @ManyToOne(() => Language, (language) => language.proLangs, { eager: true })
   @JoinColumn({ name: 'language_id', referencedColumnName: 'id' })
   language: Language;
 }
