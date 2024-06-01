@@ -238,8 +238,8 @@
     {
       "id": 3,
       "name": "languages",
-      "x": 139.13134375000016,
-      "y": 76.27059374999985,
+      "x": 116.03672500000016,
+      "y": 71.40856874999986,
       "fields": [
         {
           "name": "id",
@@ -347,7 +347,7 @@
         },
         {
           "name": "content",
-          "type": "VARCHAR",
+          "type": "TEXT",
           "default": "",
           "check": "",
           "primary": false,
@@ -356,7 +356,7 @@
           "increment": false,
           "comment": "",
           "id": 5,
-          "size": 255
+          "size": 65535
         },
         {
           "name": "user_created",
