@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseGuards,
@@ -29,5 +30,11 @@ export class ProjectsController {
   @Serialize(ResponseProjectDto)
   async findAllProjects() {
     return await this.projectService.findAllProject();
+  }
+
+  @Get(':projectId')
+  @Serialize(ResponseProjectDto)
+  async findOneProject(@Param('projectId') projectId: string) {
+    return await this.projectService.findOneById(projectId);
   }
 }
