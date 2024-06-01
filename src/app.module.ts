@@ -19,7 +19,7 @@ import { BullConfig } from './config/queue-bull.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: `.env${process.env?.NODE_ENV ? '.' + process.env.NODE_ENV : ''}`,
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,

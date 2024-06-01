@@ -35,7 +35,7 @@ async function bootstrap() {
 
   app.register(compress, { encodings: ['gzip', 'deflate'] });
 
-  app.enableCors()
+  app.enableCors();
 
   app.useGlobalPipes(
     new ValidationPipe({
