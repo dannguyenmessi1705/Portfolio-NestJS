@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseGuards,
@@ -11,6 +12,8 @@ import { BlogsService } from './blogs.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { FileInterceptor, File } from '@nest-lab/fastify-multer';
 import { CreateBlogDto } from './dtos/create-blog.dtos';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { BlogResponseDto } from './dtos/response.dto';
 
 @Controller('blogs')
 export class BlogsController {
@@ -25,7 +28,14 @@ export class BlogsController {
   }
 
   @Get()
+  @Serialize(BlogResponseDto)
   async getAllBlogs() {
     return await this.blogService.findAllBlogs();
+  }
+
+  @Get(':blogId')
+  @Serialize(BlogResponseDto)
+  async getBlogById(@Param('blogId') blogId: string) {
+    return await this.blogService.findOneById(blogId);
   }
 }

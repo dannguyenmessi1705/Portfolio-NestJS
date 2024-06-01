@@ -33,7 +33,7 @@ export class Blog {
   @Column({ name: 'cover_image' })
   coverImage: string;
 
-  @ManyToOne(() => User, (user) => user.blogs)
+  @ManyToOne(() => User, (user) => user.blogs, { eager: true })
   @JoinColumn({ name: 'user_created', referencedColumnName: 'id' })
   user: User;
 }

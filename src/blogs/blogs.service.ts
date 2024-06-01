@@ -14,7 +14,7 @@ export class BlogsService {
   ) {}
 
   async findAllBlogs() {
-    return await this.blogRepo.find();
+    return await this.blogRepo.find({ order: { date: 'DESC' } });
   }
 
   async findOneById(id: string) {

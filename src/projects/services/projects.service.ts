@@ -26,7 +26,7 @@ export class ProjectsService {
   ) {}
 
   async findAllProject() {
-    return await this.projectRepo.find();
+    return await this.projectRepo.find({ order: { date: 'DESC' } });
   }
 
   async findOneById(id: string) {
