@@ -36,4 +36,13 @@ export class ProjectLanguageService {
     const newProjectLanguage = this.projectLanguageRepo.create(projectLanguage);
     return await this.projectLanguageRepo.save(newProjectLanguage);
   }
+
+  async deleteProLang(project: Project) {
+    return await this.projectLanguageRepo
+      .createQueryBuilder()
+      .delete()
+      .from(ProjectLanguage)
+      .where('project_id = :id', { id: project.id })
+      .execute();
+  }
 }

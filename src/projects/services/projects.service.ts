@@ -105,4 +105,23 @@ export class ProjectsService {
       message: 'Project updated successfully',
     };
   }
+
+  async deleteProject(id: string) {
+    const project = await this.findOneById(id);
+    if (!project) {
+      return {
+        message: 'Project not found',
+      };
+    }
+    await this.projectLanguageService.deleteProLang(project);
+    await this.projectRepo
+      .createQueryBuilder()
+      .delete()
+      .from(Project)
+      .where('id = :id', { id })
+      .execute();
+    return {
+      message: 'Project deleted successfully',
+    };
+  }
 }

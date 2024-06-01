@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -57,5 +58,11 @@ export class ProjectsController {
       body,
       file?.path || null,
     );
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':projectId')
+  async deleteProject(@Param('projectId') projectId: string) {
+    return await this.projectService.deleteProject(projectId);
   }
 }
