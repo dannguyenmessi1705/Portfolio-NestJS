@@ -1,8 +1,10 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   UploadedFile,
   UseGuards,
@@ -14,6 +16,7 @@ import { File, FileInterceptor } from '@nest-lab/fastify-multer';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { ResponseProjectDto } from './dtos/response.dto';
+import { UpdateProjectDto } from './dtos/update-project.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -36,5 +39,23 @@ export class ProjectsController {
   @Serialize(ResponseProjectDto)
   async findOneProject(@Param('projectId') projectId: string) {
     return await this.projectService.findOneById(projectId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch(':projectId')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateProject(
+    @Param('projectId') projectId: string,
+    @Body() body: UpdateProjectDto,
+    @UploadedFile() file: File,
+  ) {
+    if (!body) {
+      throw new BadRequestException('Body is required');
+    }
+    return await this.projectService.update(
+      projectId,
+      body,
+      file?.path || null,
+    );
   }
 }

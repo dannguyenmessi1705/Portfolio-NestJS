@@ -100,6 +100,9 @@ export class ProjectsService {
       updateProject.image = filePath;
     }
     Object.assign(project, updateProject);
-    return await this.projectRepo.save(project);
+    await this.projectRepo.save(project);
+    return {
+      message: 'Project updated successfully',
+    };
   }
 }
