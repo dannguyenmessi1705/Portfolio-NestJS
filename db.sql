@@ -32,7 +32,9 @@ CREATE TABLE IF NOT EXISTS `portfolio`.`admin` (
   UNIQUE INDEX `id` (`id` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+
+INSERT INTO `portfolio`.`admin` (`id`, `name`, `email`, `image`) 
+VALUES ('8beedc7b-fde8-4ff0-8241-3bb48219c572', 'Di Đan Nguyễn', 'dannd.b20vt086@stu.ptit.edu.vn', 'https://avatars.githubusercontent.com/u/79917180?v=4')
 
 
 -- -----------------------------------------------------

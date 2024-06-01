@@ -107,6 +107,10 @@ export class ProjectsService {
   }
 
   async deleteProject(id: string) {
+    const admin = await this.userService.getAdminDetails();
+    if (!admin) {
+      throw new UnauthorizedException();
+    }
     const project = await this.findOneById(id);
     if (!project) {
       return {
