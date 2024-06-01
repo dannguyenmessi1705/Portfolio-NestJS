@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -32,8 +33,8 @@ export class ProjectsController {
 
   @Get()
   @Serialize(ResponseProjectDto)
-  async findAllProjects() {
-    return await this.projectService.findAllProject();
+  async findAllProjects(@Query('page') page: number = 0) {
+    return await this.projectService.findAllProject(page);
   }
 
   @Get(':projectId')

@@ -11,7 +11,7 @@ import { ProjectLanguageService } from './project-language.service';
 import { CategoryService } from './category.service';
 import { Language } from '../entities/languages.entity';
 
-import { v4 as uuidv4 } from 'uuid';
+import { pageSize } from 'src/utils/pageSize';
 
 @Injectable()
 export class ProjectsService {
@@ -25,8 +25,12 @@ export class ProjectsService {
     private dataSource: DataSource,
   ) {}
 
-  async findAllProject() {
-    return await this.projectRepo.find({ order: { date: 'DESC' } });
+  async findAllProject(page: number = 0) {
+    return await this.projectRepo.find({
+      order: { date: 'DESC' },
+      take: pageSize,
+      skip: page * pageSize,
+    });
   }
 
   async findOneById(id: string) {

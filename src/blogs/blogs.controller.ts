@@ -34,8 +34,8 @@ export class BlogsController {
 
   @Get()
   @Serialize(BlogResponseDto)
-  async getAllBlogs() {
-    return await this.blogService.findAllBlogs();
+  async getAllBlogs(@Query('page') page: number = 0) {
+    return await this.blogService.findAllBlogs(page);
   }
 
   @Get(':blogId')

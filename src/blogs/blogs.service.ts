@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateBlogDto } from './dtos/create-blog.dto';
 import { UsersService } from 'src/users/users.service';
 import { UpdateBlogDto } from './dtos/update-blog.dto';
+import { pageSize } from 'src/utils/pageSize';
 
 @Injectable()
 export class BlogsService {
@@ -14,8 +15,12 @@ export class BlogsService {
     private userService: UsersService,
   ) {}
 
-  async findAllBlogs() {
-    return await this.blogRepo.find({ order: { date: 'DESC' } });
+  async findAllBlogs(page: number = 0) {
+    return await this.blogRepo.find({
+      order: { date: 'DESC' },
+      take: pageSize,
+      skip: page * pageSize,
+    });
   }
 
   async findOneById(id: string) {
@@ -27,8 +32,8 @@ export class BlogsService {
       .createQueryBuilder('blogs')
       .leftJoinAndSelect('blogs.user', 'user')
       .where('blogs.title LIKE :title', { title: `%${title}%` })
-      .take(20)
-      .skip(page * 20)
+      .take(pageSize)
+      .skip(page * pageSize)
       .getMany();
     return blogs;
   }
