@@ -9,6 +9,9 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { RedisCacheConfig } from './config/redis-cache.config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -24,8 +27,15 @@ import { TypeOrmConfigService } from './config/typeorm.config';
     BlogsModule,
     ProjectsModule,
     UsersModule,
+    CacheModule.registerAsync(RedisCacheConfig),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
 export class AppModule {}
