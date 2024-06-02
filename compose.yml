@@ -2,13 +2,15 @@ services:
   mysql:
     container_name: mysql
     image: mysql:8.0
+    ports:
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: portfolio
       MYSQL_USER: dannguyen
       MYSQL_PASSWORD: 17052002
     volumes:
-      # - ./mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
       - $PWD/db.sql:/docker-entrypoint-initdb.d/db.sql
     restart: unless-stopped
     networks:
@@ -17,33 +19,35 @@ services:
   redis:
     container_name: redis
     image: redis:6.0
-    networks:
-      - portfolio-network
-    # volumes:
-    #   - ./redis-data:/data
-
-  backend:
-    container_name: backend
-    build:
-      context: .
-      dockerfile: Dockerfile
-    entrypoint: ["npm", "run", "start:prod"]
-    env_file:
-      - ./.env
     ports:
-      - 3001:3001
+      - 6379:6379
     networks:
       - portfolio-network
-    # volumes:
-    #   - ./:/usr/src/app
-    #   - /usr/src/app/node_modules
-    restart: always
-    depends_on:
-      - mysql
-      - redis
-    links:
-      - mysql
-      - redis
+    volumes:
+      - ./redis-data:/data
+
+  # backend:
+  #   container_name: backend
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   entrypoint: ["npm", "run", "start:prod"]
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - 3001:3001
+  #   networks:
+  #     - portfolio-network
+  #   # volumes:
+  #   #   - ./:/usr/src/app
+  #   #   - /usr/src/app/node_modules
+  #   restart: always
+  #   depends_on:
+  #     - mysql
+  #     - redis
+  #   links:
+  #     - mysql
+  #     - redis
 networks:
   portfolio-network:
     driver: bridge

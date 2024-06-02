@@ -151,4 +151,4 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 INSERT INTO `portfolio`.`admin` (`id`, `name`, `email`, `image`) 
-VALUES ('8beedc7b-fde8-4ff0-8241-3bb48219c572', 'Di Đan Nguyễn', 'dannd.b20vt086@stu.ptit.edu.vn', 'https://avatars.githubusercontent.com/u/79917180?v=4');
+VALUES ('8beedc7b-fde8-4ff0-8241-3bb48219c572', 'dannguyenmessi1705', 'dannd.b20vt086@stu.ptit.edu.vn', 'https://avatars.githubusercontent.com/u/79917180?v=4');

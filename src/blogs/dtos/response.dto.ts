@@ -24,7 +24,10 @@ export class BlogResponseDto {
     name: string;
     image: string;
   };
-  
+
+  @Expose()
+  date: Date;
+
   @Expose()
   content: string;
 }
