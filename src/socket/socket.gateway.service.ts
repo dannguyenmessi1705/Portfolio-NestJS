@@ -12,12 +12,8 @@ import {
 import { Server, Socket } from 'socket.io';
 @WebSocketGateway({
   cors: {
-    origin: true,
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
-    credentials: true,
+    origin: '*', // Allow all origins
   },
-  maxHttpBufferSize: 1e8,
 })
 export class SocketGatewayService
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
