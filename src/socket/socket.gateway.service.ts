@@ -8,12 +8,16 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import path from 'path';
 
 import { Server, Socket } from 'socket.io';
 @WebSocketGateway({
+  path: '/socket',
+  transports: ['websocket', 'polling'],
   cors: {
     origin: '*', // Allow all origins
   },
+  allowEIO3: true,
 })
 export class SocketGatewayService
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
