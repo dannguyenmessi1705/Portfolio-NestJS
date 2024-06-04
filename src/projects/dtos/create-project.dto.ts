@@ -18,5 +18,5 @@ export class NewProjectDto {
   languages: string;
 
   @IsEnum(CategoryEnum)
-  category: string;
+  category: CategoryEnum;
 }

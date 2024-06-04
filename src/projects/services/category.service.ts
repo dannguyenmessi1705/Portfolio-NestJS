@@ -14,4 +14,9 @@ export class CategoryService {
   async findByName(name: string) {
     return await this.categoryRepo.findOne({ where: { name } });
   }
+
+  async createCategory(name: CategoryEnum) {
+    const category = this.categoryRepo.create({ name });
+    return await this.categoryRepo.save(category);
+  }
 }

@@ -75,7 +75,11 @@ export class ProjectsService {
       });
 
       const categoryPro = await this.categoryService.findByName(category);
-      saveProject.category = categoryPro;
+      if (!categoryPro) {
+        const newCategory = await this.categoryService.createCategory(category);
+        saveProject.category = newCategory;
+      }
+      else saveProject.category = categoryPro;
 
       await queryRunner.manager.save(saveProject);
       await queryRunner.commitTransaction();
